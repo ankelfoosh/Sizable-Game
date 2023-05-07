@@ -625,7 +625,7 @@ Transform:
   m_Children:
   - {fileID: 1321844896}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &379534602
 GameObject:
@@ -657,6 +657,7 @@ Transform:
   m_Children:
   - {fileID: 619394802}
   - {fileID: 1132966375}
+  - {fileID: 2125254960}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1394,12 +1395,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746167413}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.19260001, y: 0.23809999, z: 0}
-  m_LocalScale: {x: 25.799658, y: 13.279117, z: 1}
+  m_LocalPosition: {x: 15.7215, y: 6.8426, z: 0}
+  m_LocalScale: {x: 84.160324, y: 37.90567, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &746167415
 SpriteRenderer:
@@ -1726,7 +1727,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1021780435
 GameObject:
@@ -1923,7 +1924,7 @@ GameObject:
   - component: {fileID: 1111369385}
   m_Layer: 7
   m_Name: Square (4)
-  m_TagString: Ground
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1952,7 +1953,7 @@ CompositeCollider2D:
   m_GameObject: {fileID: 1111369383}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -1995,7 +1996,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -2169,7 +2170,7 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.44
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
@@ -2259,6 +2260,7 @@ GameObject:
   - component: {fileID: 1145567158}
   - component: {fileID: 1145567157}
   - component: {fileID: 1145567161}
+  - component: {fileID: 1145567164}
   - component: {fileID: 1145567162}
   - component: {fileID: 1145567163}
   m_Layer: 6
@@ -2390,6 +2392,10 @@ MonoBehaviour:
   currentXSpeed: 0
   currentYSpeed: 0
   canMove: 0
+  direction: 1
+  smallSize: 0
+  mediumSize: 1
+  largeSize: 0
   deathManager: {fileID: 1145567163}
   groundCheck: {fileID: 1116082310}
   groundCheckRadius: 0.7
@@ -2516,6 +2522,25 @@ MonoBehaviour:
   anim: {fileID: 1008348218}
   timeElapsed: 0
   lerpDuration: 1
+--- !u!114 &1145567164
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1145567156}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f3a350c2e8ee9f44bdb1f6b39dca281, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 1145567161}
+  dashSpeed: 36
+  isDashing: 0
+  dashTime: 0.25
+  cooldown: 3
+  timeElapsed: 0
+  lerpDuration: 1
 --- !u!1 &1209348409
 GameObject:
   m_ObjectHideFlags: 0
@@ -2531,7 +2556,7 @@ GameObject:
   - component: {fileID: 1209348411}
   m_Layer: 7
   m_Name: Square (11)
-  m_TagString: Ground
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2560,7 +2585,7 @@ CompositeCollider2D:
   m_GameObject: {fileID: 1209348409}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -2603,7 +2628,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -2742,7 +2767,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1321844895
 GameObject:
@@ -3177,7 +3202,7 @@ GameObject:
   - component: {fileID: 1837912426}
   m_Layer: 7
   m_Name: Square (6)
-  m_TagString: Ground
+  m_TagString: Wall
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3206,7 +3231,7 @@ CompositeCollider2D:
   m_GameObject: {fileID: 1837912424}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -3249,7 +3274,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
+  m_Material: {fileID: 6200000, guid: d05ead63dcd99f04fa8726d753957aeb, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -3584,8 +3609,8 @@ MonoBehaviour:
   m_LightType: 4
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.5
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 0.37
+  m_Color: {r: 0.3301887, g: 0.3301887, b: 0.3301887, a: 1}
+  m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
   m_ApplyToSortingLayers: 2924a7d0
@@ -3653,11 +3678,11 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2125254958}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.15685163, y: 1.1461383, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.9150732, y: 0.46191186, z: -0.053708646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_Father: {fileID: 379534603}
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

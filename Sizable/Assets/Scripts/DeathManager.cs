@@ -24,14 +24,17 @@ public class DeathManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        anim.SetBool("Dead", death);
+    }
+
+    void FixedUpdate()
+    {
         if (isDead)
         {
             StartCoroutine(Lerp());
             isDead = false;
             death = true;
         }
-
-        anim.SetBool("Dead", death);
     }
     IEnumerator Lerp()
     {

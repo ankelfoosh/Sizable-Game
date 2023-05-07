@@ -12,6 +12,11 @@ public class Player_Move : MonoBehaviour
     private Rigidbody2D rb;
     public bool canMove;
 
+    public int direction = 1;
+    public bool smallSize = false;
+    public bool mediumSize = true;
+    public bool largeSize = false;
+
     private Transform transform;
     public DeathManager deathManager;
     private Vector3 respawnPoint;
@@ -37,6 +42,7 @@ public class Player_Move : MonoBehaviour
         transform = GetComponent<Transform>();
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
+        canMove = true;
     }
 
     // Update is called once per frame
@@ -78,6 +84,9 @@ public class Player_Move : MonoBehaviour
 
         if (Input.GetKey("z"))
         {
+            smallSize = true;
+            mediumSize = false;
+            largeSize = false;
             transform.localScale = new Vector2(0.5f, 0.5f);
             groundCheckRadius = 0.35f;
             jumpHeight = 540f;
@@ -86,6 +95,9 @@ public class Player_Move : MonoBehaviour
         }
         if (Input.GetKey("x"))
         {
+            smallSize = false;
+            mediumSize = true;
+            largeSize = false;
             transform.localScale = new Vector2(1f, 1f);
             groundCheckRadius = 0.7f;
             jumpHeight = 750f;
@@ -94,6 +106,9 @@ public class Player_Move : MonoBehaviour
         }
         if (Input.GetKey("c"))
         {
+            smallSize = false;
+            mediumSize = false;
+            largeSize = true;
             transform.localScale = new Vector2(2f, 2f);
             groundCheckRadius = 1.4f;
             jumpHeight = 960f;
@@ -117,41 +132,46 @@ public class Player_Move : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentXSpeed >= maxSpeed)
+        if (canMove)
         {
-            rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
-        }
+            if (currentXSpeed >= maxSpeed)
+            {
+                rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+            }
 
-        if (currentXSpeed <= -maxSpeed)
-        {
-            rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
-        }
+            if (currentXSpeed <= -maxSpeed)
+            {
+                rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+            }
 
-        if (Input.GetKey("a"))
-        {
-            rb.AddForce(new Vector2(-speed, 0), ForceMode2D.Force);
-            isMoving = true;
-        }
-        else if (Input.GetKey("d"))
-        {
-            rb.AddForce(new Vector2(speed, 0), ForceMode2D.Force);
-            isMoving = true;
-        }
-        else
-        {
-            rb.AddForce(new Vector2(-currentXSpeed, 0), ForceMode2D.Force);
-            isMoving = false;
-        }
+            if (Input.GetKey("a"))
+            {
+                rb.AddForce(new Vector2(-speed, 0), ForceMode2D.Force);
+                isMoving = true;
+                direction = -1;
+            }
+            else if (Input.GetKey("d"))
+            {
+                rb.AddForce(new Vector2(speed, 0), ForceMode2D.Force);
+                isMoving = true;
+                direction = 1;
+            }
+            else
+            {
+                rb.AddForce(new Vector2(-currentXSpeed, 0), ForceMode2D.Force);
+                isMoving = false;
+            }
 
-        if (jump)
-        {
-            rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
-            jump = false;
-        }
-        else if (stopJump)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, 5);
-            stopJump = false;
+            if (jump)
+            {
+                rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
+                jump = false;
+            }
+            else if (stopJump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, 5);
+                stopJump = false;
+            }
         }
     }
 
