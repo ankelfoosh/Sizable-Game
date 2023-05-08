@@ -6,6 +6,7 @@ public class Player_Move : MonoBehaviour
 {
     public float speed;
     public float maxSpeed;
+    public float minGravSpeed;
     private bool isMoving;
     public float currentXSpeed;
     public float currentYSpeed;
@@ -20,6 +21,11 @@ public class Player_Move : MonoBehaviour
     private Transform transform;
     public DeathManager deathManager;
     private Vector3 respawnPoint;
+
+    public Transform spawnCheck;
+    public float spawnCheckRadius;
+    public LayerMask spawnLayer;
+    public bool isTouchingNospawn;
 
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -48,11 +54,12 @@ public class Player_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isTouchingNospawn = Physics2D.OverlapCircle(spawnCheck.position, spawnCheckRadius, spawnLayer);
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
         
-        if (isTouchingGround)
+        if (isTouchingGround && !isTouchingNospawn)
         {
             respawnPoint = transform.position;
         }
@@ -89,6 +96,7 @@ public class Player_Move : MonoBehaviour
             largeSize = false;
             transform.localScale = new Vector2(0.5f, 0.5f);
             groundCheckRadius = 0.35f;
+            spawnCheckRadius = 0.35f;
             jumpHeight = 540f;
             speed = 9f;
             maxSpeed = 10.5f;
@@ -100,6 +108,7 @@ public class Player_Move : MonoBehaviour
             largeSize = false;
             transform.localScale = new Vector2(1f, 1f);
             groundCheckRadius = 0.7f;
+            spawnCheckRadius = 0.7f;
             jumpHeight = 750f;
             speed = 6f;
             maxSpeed = 15f;
@@ -111,6 +120,7 @@ public class Player_Move : MonoBehaviour
             largeSize = true;
             transform.localScale = new Vector2(2f, 2f);
             groundCheckRadius = 1.4f;
+            spawnCheckRadius = 1.4f;
             jumpHeight = 960f;
             speed = 2f;
             maxSpeed = 7f;
@@ -134,6 +144,11 @@ public class Player_Move : MonoBehaviour
     {
         if (canMove)
         {
+            if (currentYSpeed <= minGravSpeed)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, minGravSpeed);
+            }
+
             if (currentXSpeed >= maxSpeed)
             {
                 rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
