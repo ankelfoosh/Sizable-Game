@@ -30,7 +30,7 @@ public class Player_Move : MonoBehaviour
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    private bool isTouchingGround;
+    public bool isTouchingGround;
     private bool jump;
     private bool stopJump;
     public float jumpHeight;
@@ -64,14 +64,17 @@ public class Player_Move : MonoBehaviour
             respawnPoint = transform.position;
         }
 
-        if (Input.GetKeyDown("space") && isTouchingGround)
+        if (!smallSize)
         {
-            jump = true;
-        }
+            if (Input.GetKeyDown("space") && isTouchingGround)
+            {
+                jump = true;
+            }
 
-        if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 0)
-        {
-            stopJump = true;
+            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 0)
+            {
+                stopJump = true;
+            }
         }
 
         if (rb.velocity.x <= 0.7f && !isMoving && rb.velocity.x >= -0.7f)
