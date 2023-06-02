@@ -35,6 +35,11 @@ public class Player_Move : MonoBehaviour
     private bool stopJump;
     public float jumpHeight;
 
+    public bool doubleJumpAbility = false;
+    private bool canDoubleJump;
+    public float doubleJumpHeight;
+    public float doubleJumpTierBonus;
+
     public float timeElapsed = 0f;
     public float lerpDuration;
     float startValue = 0;
@@ -48,6 +53,7 @@ public class Player_Move : MonoBehaviour
         transform = GetComponent<Transform>();
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
+        doubleJumpTierBonus = doubleJumpHeight * .3333333333f;
         canMove = true;
     }
 
@@ -71,9 +77,24 @@ public class Player_Move : MonoBehaviour
                 jump = true;
             }
 
-            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 0)
+            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 5)
             {
                 stopJump = true;
+            }
+        }
+        if (!smallSize)
+        {
+            if (!isTouchingGround && doubleJumpAbility)
+            {
+                if (canDoubleJump && Input.GetKeyDown("space"))
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight);
+                    canDoubleJump = false;
+                }
+            }
+            else if (doubleJumpAbility && isTouchingGround)
+            {
+                canDoubleJump = true;
             }
         }
 
@@ -98,9 +119,9 @@ public class Player_Move : MonoBehaviour
             mediumSize = false;
             largeSize = false;
             transform.localScale = new Vector2(0.5f, 0.5f);
-            groundCheckRadius = 0.35f;
-            spawnCheckRadius = 0.35f;
-            jumpHeight = 540f;
+            groundCheckRadius = 0.05f;
+            spawnCheckRadius = 0.05f;
+            jumpHeight = 10f;
             speed = 9f;
             maxSpeed = 10.5f;
         }
@@ -110,9 +131,9 @@ public class Player_Move : MonoBehaviour
             mediumSize = true;
             largeSize = false;
             transform.localScale = new Vector2(1f, 1f);
-            groundCheckRadius = 0.7f;
-            spawnCheckRadius = 0.7f;
-            jumpHeight = 750f;
+            groundCheckRadius = 0.1f;
+            spawnCheckRadius = 0.1f;
+            jumpHeight = 15f;
             speed = 6f;
             maxSpeed = 15f;
         }
@@ -122,9 +143,9 @@ public class Player_Move : MonoBehaviour
             mediumSize = false;
             largeSize = true;
             transform.localScale = new Vector2(2f, 2f);
-            groundCheckRadius = 1.4f;
-            spawnCheckRadius = 1.4f;
-            jumpHeight = 960f;
+            groundCheckRadius = 0.1f;
+            spawnCheckRadius = 0.1f;
+            jumpHeight = 20f;
             speed = 2f;
             maxSpeed = 7f;
         }
@@ -182,7 +203,7 @@ public class Player_Move : MonoBehaviour
 
             if (jump)
             {
-                rb.AddForce(new Vector2(0, jumpHeight), ForceMode2D.Force);
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
                 jump = false;
             }
             else if (stopJump)
