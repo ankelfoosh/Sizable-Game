@@ -39,6 +39,12 @@ public class Player_Move : MonoBehaviour
     private bool canDoubleJump;
     public float doubleJumpHeight;
     public float doubleJumpTierBonus;
+    public int doubleJumpTierMax;
+
+    public float DJTier1 = 0.7f;
+    public float DJTier2 = 1f;
+    public float DJTier3 = 1.3f;
+    public int currentDJTier;
 
     public float timeElapsed = 0f;
     public float lerpDuration;
@@ -53,7 +59,7 @@ public class Player_Move : MonoBehaviour
         transform = GetComponent<Transform>();
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
-        doubleJumpTierBonus = doubleJumpHeight * .3333333333f;
+        doubleJumpTierBonus = 0;
         canMove = true;
     }
 
@@ -64,6 +70,30 @@ public class Player_Move : MonoBehaviour
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
+
+        // Double jump statements (boring)
+
+        if (currentDJTier == 0)
+        {
+            doubleJumpTierBonus = 0;
+        }
+        else if (currentDJTier == 1)
+        {
+            doubleJumpTierBonus = DJTier1;
+        }
+        else if (currentDJTier == 2)
+        {
+            doubleJumpTierBonus = DJTier2;
+        }
+        else if (currentDJTier == 3)
+        {
+            doubleJumpTierBonus = DJTier3;
+        }
+
+        if (currentDJTier > doubleJumpTierMax)
+        {
+            currentDJTier = doubleJumpTierMax;
+        }
         
         if (isTouchingGround && !isTouchingNospawn)
         {
@@ -88,7 +118,7 @@ public class Player_Move : MonoBehaviour
             {
                 if (canDoubleJump && Input.GetKeyDown("space"))
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight);
+                    rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight * doubleJumpTierBonus);
                     canDoubleJump = false;
                 }
             }
