@@ -41,6 +41,10 @@ public class Player_Move : MonoBehaviour
     public float doubleJumpTierBonus;
     public int doubleJumpTierMax;
 
+    public bool speedUpgrade;
+    public float speedTierBonus = 1f;
+    public int currentSpeedTier;
+
     public float DJTier1 = 0.7f;
     public float DJTier2 = 1f;
     public float DJTier3 = 1.3f;
@@ -112,6 +116,7 @@ public class Player_Move : MonoBehaviour
                 stopJump = true;
             }
         }
+
         if (!smallSize)
         {
             if (!isTouchingGround && doubleJumpAbility)
@@ -203,14 +208,14 @@ public class Player_Move : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, minGravSpeed);
             }
 
-            if (currentXSpeed >= maxSpeed)
+            if (currentXSpeed >= maxSpeed * speedTierBonus)
             {
-                rb.velocity = new Vector2(maxSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(maxSpeed * speedTierBonus, rb.velocity.y);
             }
 
-            if (currentXSpeed <= -maxSpeed)
+            if (currentXSpeed <= -maxSpeed * speedTierBonus)
             {
-                rb.velocity = new Vector2(-maxSpeed, rb.velocity.y);
+                rb.velocity = new Vector2(-maxSpeed * speedTierBonus, rb.velocity.y);
             }
 
             if (Input.GetKey("a"))
