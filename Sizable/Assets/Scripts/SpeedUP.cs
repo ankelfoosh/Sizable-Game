@@ -73,7 +73,7 @@ public class SpeedUP : MonoBehaviour
         }
         valueToLerp = endValue;
         playerMove.speedUpgrade = false;
-        playerMove.currentSpeedTier -= playerMove.currentSpeedTier;
+        playerMove.currentSpeedTier -= tier;
         tf.localScale = new Vector2(1f, 1f);
         cc.enabled = true;
         timeElapsed = 0f;

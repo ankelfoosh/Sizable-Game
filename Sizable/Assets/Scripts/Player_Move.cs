@@ -14,6 +14,7 @@ public class Player_Move : MonoBehaviour
     public bool canMove;
 
     public int direction = 1;
+    public bool canChange = true;
     public bool smallSize = false;
     public bool mediumSize = true;
     public bool largeSize = false;
@@ -147,42 +148,44 @@ public class Player_Move : MonoBehaviour
         }
 
         // Size Changing
-
-        if (Input.GetKey("z"))
+        if (canChange)
         {
-            smallSize = true;
-            mediumSize = false;
-            largeSize = false;
-            transform.localScale = new Vector2(0.5f, 0.5f);
-            groundCheckRadius = 0.05f;
-            spawnCheckRadius = 0.05f;
-            jumpHeight = 10f;
-            speed = 9f;
-            maxSpeed = 10.5f;
-        }
-        if (Input.GetKey("x"))
-        {
-            smallSize = false;
-            mediumSize = true;
-            largeSize = false;
-            transform.localScale = new Vector2(1f, 1f);
-            groundCheckRadius = 0.1f;
-            spawnCheckRadius = 0.1f;
-            jumpHeight = 15f;
-            speed = 6f;
-            maxSpeed = 15f;
-        }
-        if (Input.GetKey("c"))
-        {
-            smallSize = false;
-            mediumSize = false;
-            largeSize = true;
-            transform.localScale = new Vector2(2f, 2f);
-            groundCheckRadius = 0.1f;
-            spawnCheckRadius = 0.1f;
-            jumpHeight = 20f;
-            speed = 2f;
-            maxSpeed = 7f;
+            if (Input.GetKey("z"))
+            {
+                smallSize = true;
+                mediumSize = false;
+                largeSize = false;
+                transform.localScale = new Vector2(0.5f, 0.5f);
+                groundCheckRadius = 0.05f;
+                spawnCheckRadius = 0.05f;
+                jumpHeight = 10f;
+                speed = 9f;
+                maxSpeed = 10.5f;
+            }
+            if (Input.GetKey("x"))
+            {
+                smallSize = false;
+                mediumSize = true;
+                largeSize = false;
+                transform.localScale = new Vector2(1f, 1f);
+                groundCheckRadius = 0.1f;
+                spawnCheckRadius = 0.1f;
+                jumpHeight = 15f;
+                speed = 6f;
+                maxSpeed = 15f;
+            }
+            if (Input.GetKey("c"))
+            {
+                smallSize = false;
+                mediumSize = false;
+                largeSize = true;
+                transform.localScale = new Vector2(2f, 2f);
+                groundCheckRadius = 0.1f;
+                spawnCheckRadius = 0.1f;
+                jumpHeight = 20f;
+                speed = 2f;
+                maxSpeed = 7f;
+            }
         }
     }
     IEnumerator Lerp()
