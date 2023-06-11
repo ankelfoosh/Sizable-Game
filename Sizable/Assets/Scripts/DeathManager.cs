@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DeathManager : MonoBehaviour
 {
-    public bool isDead;
-    public bool death;
-    public bool done;
+    public bool isDead = false;
+    public bool death = false;
+    public bool done = false;
     public Animator anim;
     
     public float timeElapsed = 0f;
