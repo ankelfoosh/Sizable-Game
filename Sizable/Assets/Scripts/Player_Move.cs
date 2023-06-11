@@ -56,6 +56,15 @@ public class Player_Move : MonoBehaviour
     float startValue = 0;
     float endValue = 10;
     float valueToLerp;
+    
+    enum charSizes 
+    {
+        small,
+        medium,
+        large
+    }
+    
+    public charSizes charsize = charSizes.small;
 
     // Start is called before the first frame update
     void Start()
@@ -105,7 +114,7 @@ public class Player_Move : MonoBehaviour
             respawnPoint = transform.position;
         }
 
-        if (!smallSize)
+        if (!smallSize || charsize != charSizes.small)
         {
             if (Input.GetKeyDown("space") && isTouchingGround)
             {
@@ -116,10 +125,7 @@ public class Player_Move : MonoBehaviour
             {
                 stopJump = true;
             }
-        }
-
-        if (!smallSize)
-        {
+            
             if (!isTouchingGround && doubleJumpAbility)
             {
                 if (canDoubleJump && Input.GetKeyDown("space"))
@@ -152,6 +158,7 @@ public class Player_Move : MonoBehaviour
         {
             if (Input.GetKey("z"))
             {
+                charsize = charSizes.small;
                 smallSize = true;
                 mediumSize = false;
                 largeSize = false;
@@ -164,6 +171,7 @@ public class Player_Move : MonoBehaviour
             }
             if (Input.GetKey("x"))
             {
+                charsize = charSizes.medium;
                 smallSize = false;
                 mediumSize = true;
                 largeSize = false;
@@ -176,6 +184,7 @@ public class Player_Move : MonoBehaviour
             }
             if (Input.GetKey("c"))
             {
+                charsize = charSizes.large;
                 smallSize = false;
                 mediumSize = false;
                 largeSize = true;
