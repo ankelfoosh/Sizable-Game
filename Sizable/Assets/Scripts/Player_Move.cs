@@ -7,11 +7,11 @@ public class Player_Move : MonoBehaviour
     public float speed;
     public float maxSpeed;
     public float minGravSpeed;
-    private bool isMoving;
+    private bool isMoving = false;
     public float currentXSpeed;
     public float currentYSpeed;
     private Rigidbody2D rb;
-    public bool canMove;
+    public bool canMove = true;
 
     public int direction = 1;
     public bool canChange = true;
@@ -26,23 +26,23 @@ public class Player_Move : MonoBehaviour
     public Transform spawnCheck;
     public float spawnCheckRadius;
     public LayerMask spawnLayer;
-    public bool isTouchingNospawn;
+    public bool isTouchingNospawn = false;
 
     public Transform groundCheck;
     public float groundCheckRadius;
     public LayerMask groundLayer;
-    public bool isTouchingGround;
-    private bool jump;
-    private bool stopJump;
+    public bool isTouchingGround = false;
+    private bool jump = false;
+    private bool stopJump = false;
     public float jumpHeight;
 
     public bool doubleJumpAbility = false;
-    private bool canDoubleJump;
+    private bool canDoubleJump = false;
     public float doubleJumpHeight;
     public float doubleJumpTierBonus;
     public int doubleJumpTierMax;
 
-    public bool speedUpgrade;
+    public bool speedUpgrade = false;
     public float speedTierBonus = 1f;
     public int currentSpeedTier;
 
