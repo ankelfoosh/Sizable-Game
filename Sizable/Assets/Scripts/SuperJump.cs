@@ -5,6 +5,7 @@ using UnityEngine;
 public class SuperJump : MonoBehaviour
 {
     public Player_Move playerMove;
+    public PistonBoost pistonBoost;
     private Rigidbody2D rb;
 
     public float jumpCharge;
@@ -12,6 +13,7 @@ public class SuperJump : MonoBehaviour
     public float jumpHeight;
     public float maxJumpHeight;
     private bool isJumping;
+    public float scaleMultiplier = 0.04f;
 
     public RectTransform bar;
     public GameObject chargeBar;
@@ -27,7 +29,7 @@ public class SuperJump : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (playerMove.smallSize)
+        if (playerMove.charsize == Player_Move.charSizes.small)
         {
             if (Input.GetKey("space"))
             {
@@ -40,7 +42,7 @@ public class SuperJump : MonoBehaviour
                 else
                 {
                     jumpCharge += jumpTime * Time.deltaTime;
-                    bar.localScale = new Vector2(0.04f * jumpCharge, 1);
+                    bar.localScale = new Vector2(scaleMultiplier * jumpCharge, 1);
                 }
             }
 
@@ -50,7 +52,7 @@ public class SuperJump : MonoBehaviour
                 bar.localScale = new Vector2(0, 1);
                 chargeBar.SetActive(false);
 
-                if (playerMove.isTouchingGround)
+                if (playerMove.isTouchingGround || pistonBoost.isTouchingPiston)
                 {
                     isJumping = true;
                 }

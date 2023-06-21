@@ -35,7 +35,7 @@ public class StickyWallScript : MonoBehaviour
     {
         isTouchingStick = Physics2D.OverlapCircle(stickCheck.position, stickCheckRadius, stickLayer);
 
-        if (isTouchingStick && !playerMove.smallSize)
+        if (isTouchingStick && playerMove.charsize != Player_Move.charSizes.small)
         {
             chargeBar.SetActive(true);
             playerMove.canChange = false;
@@ -71,7 +71,7 @@ public class StickyWallScript : MonoBehaviour
             rb.gravityScale = 4f;
         }
 
-        if (Input.GetKeyDown("space"))
+        if (Input.GetKeyDown("space") && isTouchingStick && playerMove.charsize != Player_Move.charSizes.small)
         {
             horizontalSpeed = charge;
             jump = true;

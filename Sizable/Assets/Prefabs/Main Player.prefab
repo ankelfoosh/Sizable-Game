@@ -88,7 +88,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7729109552355162522}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!58 &4164766369106007764
 CircleCollider2D:
@@ -106,6 +106,64 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.51
+--- !u!1 &1870588752447999079
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6169313718854529643}
+  - component: {fileID: 5665974425296946938}
+  m_Layer: 6
+  m_Name: PistonCheck
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6169313718854529643
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870588752447999079}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.48, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7729109552355162522}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!61 &5665974425296946938
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870588752447999079}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.0000140070915, y: 0.016858071}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.39308155, y: 0.13461918}
+  m_EdgeRadius: 0
 --- !u!1 &7904070150858478769
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +240,7 @@ GameObject:
   - component: {fileID: -951821271038293464}
   - component: {fileID: 232682137763824549}
   - component: {fileID: 6845834077547960864}
+  - component: {fileID: 3200575817318422005}
   m_Layer: 6
   m_Name: Main Player
   m_TagString: Player
@@ -203,6 +262,7 @@ Transform:
   m_Children:
   - {fileID: 4301481931577333084}
   - {fileID: 2445399275433844068}
+  - {fileID: 6169313718854529643}
   - {fileID: 2066942822230025859}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -246,7 +306,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2003948567
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -278,7 +338,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 6e48ef96a9c5efb4bbe55cfb423a66d0, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!58 &-6276013339734299035
 CircleCollider2D:
@@ -308,11 +368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a3cc8da43f485f4989a680a25f4f581, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  maxSpeed: 12
-  minGravSpeed: -18
+  speed: 6
+  maxSpeed: 15
+  minGravSpeed: -38
   currentXSpeed: 0
   currentYSpeed: 0
+  rb: {fileID: 0}
   canMove: 0
   direction: 1
   canChange: 1
@@ -320,6 +381,7 @@ MonoBehaviour:
   mediumSize: 1
   largeSize: 0
   deathManager: {fileID: 232682137763824549}
+  stickScript: {fileID: 6845834077547960864}
   spawnCheck: {fileID: 2445399275433844068}
   spawnCheckRadius: 0.1
   spawnLayer:
@@ -333,6 +395,7 @@ MonoBehaviour:
     m_Bits: 8
   isTouchingGround: 0
   jumpHeight: 15
+  pistonBoost: {fileID: 3200575817318422005}
   doubleJumpAbility: 0
   doubleJumpHeight: 15
   doubleJumpTierBonus: 0
@@ -340,10 +403,14 @@ MonoBehaviour:
   speedUpgrade: 0
   speedTierBonus: 1
   currentSpeedTier: 0
+  jumpUpgrade: 0
+  jumpTierBonus: 1
+  currentJumpTier: 0
   DJTier1: 0.7
   DJTier2: 1
   DJTier3: 1.3
   currentDJTier: 0
+  charsize: 1
   timeElapsed: 0
   lerpDuration: 1
 --- !u!114 &-6229309967166876957
@@ -378,10 +445,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerMove: {fileID: 2598218482190254230}
+  pistonBoost: {fileID: 3200575817318422005}
   jumpCharge: 0
-  jumpTime: 12.5
+  jumpTime: 20
   jumpHeight: 0
   maxJumpHeight: 25
+  scaleMultiplier: 0.04
   bar: {fileID: 0}
   chargeBar: {fileID: 0}
 --- !u!96 &-951821271038293464
@@ -424,7 +493,7 @@ TrailRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2003948567
-  m_SortingLayer: 6
+  m_SortingLayer: 8
   m_SortingOrder: -1
   m_Time: 0.77
   m_Parameters:
@@ -523,6 +592,27 @@ MonoBehaviour:
   maxHorizontalSpeed: 24
   verticalSpeed: 16
   charge: 0
-  jumpTime: 12
+  jumpTime: 19.2
   bar: {fileID: 0}
   chargeBar: {fileID: 0}
+--- !u!114 &3200575817318422005
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8272183592454754246}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7146bc8b6585b5a4ebcad649f0ae32ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerMove: {fileID: 2598218482190254230}
+  superJump: {fileID: -8773321030881306252}
+  multiplier: 48
+  pistonCheck: {fileID: 6169313718854529643}
+  pistonCheckRadius: 0.1
+  pistonLayer:
+    serializedVersion: 2
+    m_Bits: 2048
+  isTouchingPiston: 0

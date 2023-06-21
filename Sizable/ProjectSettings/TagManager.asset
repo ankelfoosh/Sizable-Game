@@ -12,6 +12,8 @@ TagManager:
   - TutCP2
   - Bounce
   - StickyWall
+  - FinishLevel
+  - Piston
   layers:
   - Default
   - TransparentFX
@@ -24,7 +26,7 @@ TagManager:
   - Void
   - Nospawn
   - Sticky
-  - 
+  - Piston
   - 
   - 
   - 
@@ -55,8 +57,14 @@ TagManager:
   - name: Ground
     uniqueID: 1321277519
     locked: 0
+  - name: Void
+    uniqueID: 3310560429
+    locked: 0
   - name: BouncyGround
     uniqueID: 1000526617
+    locked: 0
+  - name: PistonGround
+    uniqueID: 874125541
     locked: 0
   - name: StickyWall
     uniqueID: 3553310901

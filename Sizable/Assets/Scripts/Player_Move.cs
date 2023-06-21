@@ -10,7 +10,7 @@ public class Player_Move : MonoBehaviour
     private bool isMoving = false;
     public float currentXSpeed;
     public float currentYSpeed;
-    private Rigidbody2D rb;
+    public Rigidbody2D rb;
     public bool canMove = true;
 
     public int direction = 1;
@@ -21,6 +21,7 @@ public class Player_Move : MonoBehaviour
 
     private Transform transform;
     public DeathManager deathManager;
+    public StickyWallScript stickScript;
     private Vector3 respawnPoint;
 
     public Transform spawnCheck;
@@ -36,8 +37,11 @@ public class Player_Move : MonoBehaviour
     private bool stopJump = false;
     public float jumpHeight;
 
+    public PistonBoost pistonBoost;
+
     public bool doubleJumpAbility = false;
     private bool canDoubleJump = false;
+    private bool doubleJump = false;
     public float doubleJumpHeight;
     public float doubleJumpTierBonus;
     public int doubleJumpTierMax;
@@ -46,10 +50,23 @@ public class Player_Move : MonoBehaviour
     public float speedTierBonus = 1f;
     public int currentSpeedTier;
 
+    public bool jumpUpgrade = false;
+    public float jumpTierBonus = 1f;
+    public int currentJumpTier;
+
     public float DJTier1 = 0.7f;
     public float DJTier2 = 1f;
     public float DJTier3 = 1.3f;
     public int currentDJTier;
+
+    public enum charSizes
+    {
+        small,
+        medium,
+        large
+    }
+
+    public charSizes charsize = charSizes.medium;
 
     public float timeElapsed = 0f;
     public float lerpDuration;
@@ -75,6 +92,11 @@ public class Player_Move : MonoBehaviour
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
+
+        if (pistonBoost.isTouchingPiston)
+        {
+            speedTierBonus = 1f;
+        }
 
         // Double jump statements (boring)
 
@@ -105,33 +127,36 @@ public class Player_Move : MonoBehaviour
             respawnPoint = transform.position;
         }
 
-        if (!smallSize)
+        if (charsize != charSizes.small)
         {
-            if (Input.GetKeyDown("space") && isTouchingGround)
+            minGravSpeed = -38f;
+
+            if (Input.GetKeyDown("space") && isTouchingGround || Input.GetKeyDown("space") && pistonBoost.isTouchingPiston)
             {
                 jump = true;
             }
 
-            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 5)
+            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y >= 5)
             {
                 stopJump = true;
             }
-        }
 
-        if (!smallSize)
-        {
-            if (!isTouchingGround && doubleJumpAbility)
+            if (!isTouchingGround && !stickScript.isTouchingStick && !pistonBoost.isTouchingPiston && doubleJumpAbility)
             {
                 if (canDoubleJump && Input.GetKeyDown("space"))
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, doubleJumpHeight * doubleJumpTierBonus);
+                    doubleJump = true;
                     canDoubleJump = false;
                 }
             }
-            else if (doubleJumpAbility && isTouchingGround)
+            else if (doubleJumpAbility && isTouchingGround || doubleJumpAbility && stickScript.isTouchingStick || doubleJumpAbility && pistonBoost.isTouchingPiston)
             {
                 canDoubleJump = true;
             }
+        }
+        else
+        {
+            minGravSpeed = -18f;
         }
 
         if (rb.velocity.x <= 0.7f && !isMoving && rb.velocity.x >= -0.7f)
@@ -152,9 +177,7 @@ public class Player_Move : MonoBehaviour
         {
             if (Input.GetKey("z"))
             {
-                smallSize = true;
-                mediumSize = false;
-                largeSize = false;
+                charsize = charSizes.small;
                 transform.localScale = new Vector2(0.5f, 0.5f);
                 groundCheckRadius = 0.05f;
                 spawnCheckRadius = 0.05f;
@@ -164,27 +187,23 @@ public class Player_Move : MonoBehaviour
             }
             if (Input.GetKey("x"))
             {
-                smallSize = false;
-                mediumSize = true;
-                largeSize = false;
+                charsize = charSizes.medium;
                 transform.localScale = new Vector2(1f, 1f);
                 groundCheckRadius = 0.1f;
                 spawnCheckRadius = 0.1f;
-                jumpHeight = 15f;
+                jumpHeight = 17f;
                 speed = 6f;
                 maxSpeed = 15f;
             }
             if (Input.GetKey("c"))
             {
-                smallSize = false;
-                mediumSize = false;
-                largeSize = true;
+                charsize = charSizes.large;
                 transform.localScale = new Vector2(2f, 2f);
                 groundCheckRadius = 0.1f;
                 spawnCheckRadius = 0.1f;
-                jumpHeight = 20f;
+                jumpHeight = 21f;
                 speed = 2f;
-                maxSpeed = 7f;
+                maxSpeed = 8f;
             }
         }
     }
@@ -223,13 +242,13 @@ public class Player_Move : MonoBehaviour
 
             if (Input.GetKey("a"))
             {
-                rb.AddForce(new Vector2(-speed, 0), ForceMode2D.Force);
+                rb.AddForce(new Vector2(-speed * speedTierBonus, 0), ForceMode2D.Force);
                 isMoving = true;
                 direction = -1;
             }
             else if (Input.GetKey("d"))
             {
-                rb.AddForce(new Vector2(speed, 0), ForceMode2D.Force);
+                rb.AddForce(new Vector2(speed * speedTierBonus, 0), ForceMode2D.Force);
                 isMoving = true;
                 direction = 1;
             }
@@ -239,14 +258,19 @@ public class Player_Move : MonoBehaviour
                 isMoving = false;
             }
 
-            if (jump)
+            if (doubleJump)
             {
-                rb.velocity = new Vector2(rb.velocity.x, jumpHeight);
+                rb.velocity = new Vector2(rb.velocity.x, (doubleJumpHeight * doubleJumpTierBonus) * jumpTierBonus);
+                doubleJump = false;
+            }
+            else if (jump)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpHeight * jumpTierBonus);
                 jump = false;
             }
             else if (stopJump)
             {
-                rb.velocity = new Vector2(rb.velocity.x, 5);
+                rb.velocity = new Vector2(rb.velocity.x, 4);
                 stopJump = false;
             }
         }

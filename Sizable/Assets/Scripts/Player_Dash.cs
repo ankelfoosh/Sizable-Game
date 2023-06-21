@@ -29,7 +29,7 @@ public class Player_Dash : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey("f") && canDash && playerMove.mediumSize)
+        if (Input.GetKey("f") && canDash && playerMove.charsize == Player_Move.charSizes.medium)
         {
             StartCoroutine(Lerp());
             rb.velocity = new Vector2(rb.velocity.x, 5f);
