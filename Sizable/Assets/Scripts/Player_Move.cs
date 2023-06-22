@@ -54,6 +54,10 @@ public class Player_Move : MonoBehaviour
     public float jumpTierBonus = 1f;
     public int currentJumpTier;
 
+    public bool featherUpgrade = false;
+    public float featherTierBonus = 1f;
+    public int currentFeatherTier;
+
     public float DJTier1 = 0.7f;
     public float DJTier2 = 1f;
     public float DJTier3 = 1.3f;
@@ -67,6 +71,8 @@ public class Player_Move : MonoBehaviour
     }
 
     public charSizes charsize = charSizes.medium;
+
+    public LevelManager levelManager;
 
     public float timeElapsed = 0f;
     public float lerpDuration;
@@ -129,7 +135,7 @@ public class Player_Move : MonoBehaviour
 
         if (charsize != charSizes.small)
         {
-            minGravSpeed = -38f;
+            minGravSpeed = -38f * featherTierBonus;
 
             if (Input.GetKeyDown("space") && isTouchingGround || Input.GetKeyDown("space") && pistonBoost.isTouchingPiston)
             {
@@ -156,7 +162,7 @@ public class Player_Move : MonoBehaviour
         }
         else
         {
-            minGravSpeed = -18f;
+            minGravSpeed = -18f * featherTierBonus;
         }
 
         if (rb.velocity.x <= 0.7f && !isMoving && rb.velocity.x >= -0.7f)
@@ -281,6 +287,11 @@ public class Player_Move : MonoBehaviour
         if (collision.tag == "Void")
         {
             deathManager.isDead = true;
+        }
+
+        if (collision.tag == "Finish")
+        {
+            levelManager.active = true;
         }
     }
 }

@@ -78,3 +78,6 @@ TagManager:
   - name: DeathFade
     uniqueID: 3987149571
     locked: 0
+  - name: UI Camera
+    uniqueID: 4099985873
+    locked: 0

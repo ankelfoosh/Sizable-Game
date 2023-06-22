@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class JumpHeightUP : MonoBehaviour
+public class FeatherfallUP : MonoBehaviour
 {
     public Player_Move playerMove;
-    public JumpUPTimer timer;
+    public FeatherfallUPTimer timer;
     public bool done = false;
     public int tier;
 
@@ -13,9 +13,9 @@ public class JumpHeightUP : MonoBehaviour
     private Transform tf;
     public ParticleSystem collect;
 
-    public float JHT1 = 1.2f;
-    public float JHT2 = 1.5f;
-    public float JHT3 = 1.8f;
+    public float FT1 = 0.8f;
+    public float FT2 = 0.5f;
+    public float FT3 = 0.2f;
 
     // Start is called before the first frame update
     void Start()
@@ -42,21 +42,21 @@ public class JumpHeightUP : MonoBehaviour
             cc.enabled = true;
         }
 
-        if (playerMove.currentJumpTier == 0)
+        if (playerMove.currentFeatherTier == 0)
         {
-            playerMove.jumpTierBonus = 1f;
+            playerMove.featherTierBonus = 1f;
         }
-        else if (playerMove.currentJumpTier == 1)
+        else if (playerMove.currentFeatherTier == 1)
         {
-            playerMove.jumpTierBonus = JHT1;
+            playerMove.featherTierBonus = FT1;
         }
-        else if (playerMove.currentJumpTier == 2)
+        else if (playerMove.currentFeatherTier == 2)
         {
-            playerMove.jumpTierBonus = JHT2;
+            playerMove.featherTierBonus = FT2;
         }
-        else if (playerMove.currentJumpTier == 3)
+        else if (playerMove.currentFeatherTier == 3)
         {
-            playerMove.jumpTierBonus = JHT3;
+            playerMove.featherTierBonus = FT3;
         }
     }
 
@@ -64,12 +64,9 @@ public class JumpHeightUP : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            timer.timerDone = false;
-            playerMove.currentJumpTier += tier;
-            playerMove.jumpUpgrade = true;
+            playerMove.currentFeatherTier += tier;
+            playerMove.featherUpgrade = true;
             timer.timerCalled = true;
-            timer.timer += 70 * tier;
-            timer.currentScale = playerMove.currentJumpTier;
             cc.enabled = false;
             tf.localScale = new Vector2(0f, 0f);
             Collect();

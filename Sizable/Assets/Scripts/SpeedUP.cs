@@ -38,8 +38,6 @@ public class SpeedUP : MonoBehaviour
 
         if (timer.timerDone && done)
         {
-            playerMove.speedUpgrade = false;
-            playerMove.currentSpeedTier -= tier;
             tf.localScale = new Vector2(1f, 1f);
             cc.enabled = true;
         }
@@ -66,9 +64,12 @@ public class SpeedUP : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            timer.timerDone = false;
             playerMove.currentSpeedTier += tier;
             playerMove.speedUpgrade = true;
             timer.timerCalled = true;
+            timer.timer += 70 * tier;
+            timer.currentScale = playerMove.currentSpeedTier;
             cc.enabled = false;
             tf.localScale = new Vector2(0f, 0f);
             Collect();
