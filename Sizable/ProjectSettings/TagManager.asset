@@ -27,8 +27,8 @@ TagManager:
   - Nospawn
   - Sticky
   - Piston
-  - 
-  - 
+  - SwitchA
+  - SwitchB
   - 
   - 
   - 
@@ -68,6 +68,12 @@ TagManager:
     locked: 0
   - name: StickyWall
     uniqueID: 3553310901
+    locked: 0
+  - name: Anti-GravGroundA
+    uniqueID: 320961699
+    locked: 0
+  - name: Anti-GravGroundB
+    uniqueID: 1776756617
     locked: 0
   - name: Upgrades
     uniqueID: 2875970441

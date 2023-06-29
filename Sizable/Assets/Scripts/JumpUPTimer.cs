@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JumpUPTimer : MonoBehaviour
 {
+    public BuffManager buffManager;
     public Player_Move playerMove;
 
     public bool timerCalled = false;
@@ -55,6 +56,14 @@ public class JumpUPTimer : MonoBehaviour
         }
         else if (timeElapsed == 0f && playerMove.currentJumpTier == 1)
         {
+            buffManager.activeBuffs -= 1;
+            buffManager.jumpActive = false;
+            buffManager.jump.SetActive(false);
+
+            if (buffManager.speedActive && buffManager.speedBar.localPosition.y <= buffManager.jumpBar.localPosition.y)
+            {
+                buffManager.speedBar.localPosition = new Vector2(0, buffManager.speedBar.localPosition.y + buffManager.spacing);
+            }
             playerMove.jumpUpgrade = false;
             timerCalled = false;
             timerDone = true;

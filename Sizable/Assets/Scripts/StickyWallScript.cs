@@ -11,6 +11,7 @@ public class StickyWallScript : MonoBehaviour
 
     private Rigidbody2D rb;
     public Player_Move playerMove;
+    private AntiGravGround aGG;
 
     private bool jump;
     private float horizontalSpeed;
@@ -26,6 +27,7 @@ public class StickyWallScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        aGG = GetComponent<AntiGravGround>();
         bar.transform.localPosition = new Vector3(0f, 0f, 0f);
         chargeBar.SetActive(false);
     }
@@ -64,7 +66,7 @@ public class StickyWallScript : MonoBehaviour
                 }
             }
         }
-        else
+        else if (!aGG.touch)
         {
             bar.transform.localPosition = new Vector3(0f, 0f, 0f);
             chargeBar.SetActive(false);

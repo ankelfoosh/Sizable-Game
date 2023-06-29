@@ -36,7 +36,14 @@ public class Player_Move : MonoBehaviour
     private bool jump = false;
     private bool stopJump = false;
     public float jumpHeight;
+    public float jumpHeightB;
 
+    public Transform groundBCheck;
+    public float groundBCheckRadius;
+    public LayerMask groundBLayer;
+    public bool isTouchingGroundB = false;
+
+    private AntiGravGround aGG;
     public PistonBoost pistonBoost;
 
     public bool doubleJumpAbility = false;
@@ -85,6 +92,7 @@ public class Player_Move : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         transform = GetComponent<Transform>();
+        aGG = GetComponent<AntiGravGround>();
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
         doubleJumpTierBonus = 0;
@@ -96,6 +104,7 @@ public class Player_Move : MonoBehaviour
     {
         isTouchingNospawn = Physics2D.OverlapCircle(spawnCheck.position, spawnCheckRadius, spawnLayer);
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        isTouchingGroundB = Physics2D.OverlapCircle(groundBCheck.position, groundBCheckRadius, groundBLayer);
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
 
@@ -137,17 +146,17 @@ public class Player_Move : MonoBehaviour
         {
             minGravSpeed = -38f * featherTierBonus;
 
-            if (Input.GetKeyDown("space") && isTouchingGround || Input.GetKeyDown("space") && pistonBoost.isTouchingPiston)
+            if (Input.GetKeyDown("space") && isTouchingGround || Input.GetKeyDown("space") && isTouchingGroundB || Input.GetKeyDown("space") && pistonBoost.isTouchingPiston)
             {
                 jump = true;
             }
 
-            if (Input.GetKeyUp("space") && !isTouchingGround && rb.velocity.y >= 5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y >= 5)
+            if (Input.GetKeyUp("space") && !isTouchingGround && !isTouchingGroundB && rb.velocity.y >= 5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y >= 5)
             {
                 stopJump = true;
             }
 
-            if (!isTouchingGround && !stickScript.isTouchingStick && !pistonBoost.isTouchingPiston && doubleJumpAbility)
+            if (!isTouchingGround && !isTouchingGroundB && !stickScript.isTouchingStick && !pistonBoost.isTouchingPiston && doubleJumpAbility)
             {
                 if (canDoubleJump && Input.GetKeyDown("space"))
                 {
@@ -155,7 +164,7 @@ public class Player_Move : MonoBehaviour
                     canDoubleJump = false;
                 }
             }
-            else if (doubleJumpAbility && isTouchingGround || doubleJumpAbility && stickScript.isTouchingStick || doubleJumpAbility && pistonBoost.isTouchingPiston)
+            else if (doubleJumpAbility && isTouchingGround || doubleJumpAbility && isTouchingGroundB || doubleJumpAbility && stickScript.isTouchingStick || doubleJumpAbility && pistonBoost.isTouchingPiston)
             {
                 canDoubleJump = true;
             }
@@ -188,6 +197,7 @@ public class Player_Move : MonoBehaviour
                 groundCheckRadius = 0.05f;
                 spawnCheckRadius = 0.05f;
                 jumpHeight = 10f;
+                jumpHeightB = -10f;
                 speed = 9f;
                 maxSpeed = 10.5f;
             }
@@ -198,6 +208,7 @@ public class Player_Move : MonoBehaviour
                 groundCheckRadius = 0.1f;
                 spawnCheckRadius = 0.1f;
                 jumpHeight = 17f;
+                jumpHeightB = -17f;
                 speed = 6f;
                 maxSpeed = 15f;
             }
@@ -208,6 +219,7 @@ public class Player_Move : MonoBehaviour
                 groundCheckRadius = 0.1f;
                 spawnCheckRadius = 0.1f;
                 jumpHeight = 21f;
+                jumpHeightB = -21f;
                 speed = 2f;
                 maxSpeed = 8f;
             }
@@ -231,7 +243,7 @@ public class Player_Move : MonoBehaviour
     {
         if (canMove)
         {
-            if (currentYSpeed <= minGravSpeed)
+            if (currentYSpeed <= minGravSpeed && !aGG.touch)
             {
                 rb.velocity = new Vector2(rb.velocity.x, minGravSpeed);
             }

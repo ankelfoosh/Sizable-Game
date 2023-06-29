@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class JumpHeightUP : MonoBehaviour
 {
+    public BuffManager buffManager;
     public Player_Move playerMove;
     public JumpUPTimer timer;
     public bool done = false;
@@ -64,12 +65,25 @@ public class JumpHeightUP : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
+            if (timer.timerDone)
+            {
+                buffManager.activeBuffs += 1;
+                buffManager.jump.SetActive(true);
+                buffManager.jumpActive = true;
+                buffManager.jumpBar.localPosition = new Vector2(0, 0);
+
+                if (buffManager.speedActive)
+                {
+                    buffManager.speedBar.localPosition = new Vector2(0, buffManager.speedBar.localPosition.y - buffManager.spacing);
+                }
+            }
             timer.timerDone = false;
             playerMove.currentJumpTier += tier;
             playerMove.jumpUpgrade = true;
             timer.timerCalled = true;
-            timer.timer += 70 * tier;
+            timer.timer = -210 + (70 * playerMove.currentJumpTier);
             timer.currentScale = playerMove.currentJumpTier;
+            timer.timeElapsed = 0f;
             cc.enabled = false;
             tf.localScale = new Vector2(0f, 0f);
             Collect();

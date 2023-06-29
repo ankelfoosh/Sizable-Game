@@ -6,6 +6,7 @@ public class PistonBoost : MonoBehaviour
 {
     public Player_Move playerMove;
     public SuperJump superJump;
+    private AntiGravGround aGG;
 
     private Rigidbody2D rb;
     public float multiplier;
@@ -20,6 +21,7 @@ public class PistonBoost : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        aGG = GetComponent<AntiGravGround>();
     }
 
     // Update is called once per frame
@@ -27,14 +29,21 @@ public class PistonBoost : MonoBehaviour
     {
         isTouchingPiston = Physics2D.OverlapCircle(pistonCheck.position, pistonCheckRadius, pistonLayer);
 
-        if (isTouchingPiston)
+        if (isTouchingPiston && !aGG.touch)
         {
             playerMove.jumpHeight = multiplier;
             superJump.jumpTime = (multiplier * 1.12f) * 0.8f;
             superJump.maxJumpHeight = multiplier * 1.12f;
             superJump.scaleMultiplier = ((multiplier * 1.12f) / (multiplier * 1.12f)) / (multiplier * 1.12f);
         }
-        else if (!isTouchingPiston)
+        else if (isTouchingPiston && aGG.touch)
+        {
+            playerMove.jumpHeight = -multiplier;
+            superJump.jumpTime = (-multiplier * 1.12f) * 0.8f;
+            superJump.maxJumpHeight = -multiplier * 1.12f;
+            superJump.scaleMultiplier = ((-multiplier * 1.12f) / (-multiplier * 1.12f)) / (-multiplier * 1.12f);
+        }
+        else if (!isTouchingPiston && !aGG.isTouchingSwitchA && !aGG.isTouchingSwitchB)
         {
             if (playerMove.charsize == Player_Move.charSizes.small)
             {
@@ -45,10 +54,12 @@ public class PistonBoost : MonoBehaviour
             else if (playerMove.charsize == Player_Move.charSizes.medium)
             {
                 playerMove.jumpHeight = 17f;
+                playerMove.jumpHeightB = -17f;
             }
             else if (playerMove.charsize == Player_Move.charSizes.large)
             {
                 playerMove.jumpHeight = 21f;
+                playerMove.jumpHeightB = -21f;
             }
         }
     }

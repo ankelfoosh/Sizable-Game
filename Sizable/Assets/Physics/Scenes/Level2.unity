@@ -562,8 +562,23 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 592402117}
+    - target: {fileID: 3243347139773765999, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
+      propertyPath: buffManager
+      value: 
+      objectReference: {fileID: 291343738}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
+--- !u!114 &291343738 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1692766077397444328, guid: d0925467e5bedd743849f69f6afb0986, type: 3}
+  m_PrefabInstance: {fileID: 789367880}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1058e949dbe40524da61e4f5766e7d7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &301160583
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -639,6 +654,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 592402117}
+    - target: {fileID: 3243347139773765999, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
+      propertyPath: buffManager
+      value: 
+      objectReference: {fileID: 291343738}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
 --- !u!1 &353632690
@@ -213964,7 +213983,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7160090127214166425, guid: d0925467e5bedd743849f69f6afb0986, type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 7502552307173057111, guid: d0925467e5bedd743849f69f6afb0986, type: 3}
       propertyPath: m_LocalScale.x
@@ -216816,6 +216835,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 592402117}
+    - target: {fileID: 4891671639063051196, guid: e50edcc5556658b4a8c498decf2f012d, type: 3}
+      propertyPath: buffManager
+      value: 
+      objectReference: {fileID: 291343738}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e50edcc5556658b4a8c498decf2f012d, type: 3}
 --- !u!1 &1591979075
@@ -217569,6 +217592,10 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 592402117}
+    - target: {fileID: 4891671639063051196, guid: e50edcc5556658b4a8c498decf2f012d, type: 3}
+      propertyPath: buffManager
+      value: 
+      objectReference: {fileID: 291343738}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e50edcc5556658b4a8c498decf2f012d, type: 3}
 --- !u!1 &2038348306
@@ -217715,5 +217742,9 @@ PrefabInstance:
       propertyPath: playerMove
       value: 
       objectReference: {fileID: 592402117}
+    - target: {fileID: 3243347139773765999, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
+      propertyPath: buffManager
+      value: 
+      objectReference: {fileID: 291343738}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79c13a35f07804340aa3f29ad8f84ba1, type: 3}
