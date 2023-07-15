@@ -1,9 +1,38 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class Player_Move : MonoBehaviour
 {
+    public SaveData saveData;
+
+    // Sprites
+    public SpriteRenderer srB;
+    public SpriteRenderer sr;
+
+    public Sprite regularB;
+    public Sprite ringB;
+    public Sprite linesB;
+    public Sprite loadingB;
+    public Sprite particlesB;
+    public Sprite securityB;
+
+    public Sprite regular;
+    public Sprite ring;
+    public Sprite lines;
+    public Sprite loading;
+    public Sprite particles;
+    public Sprite security;
+
+    public string currentHex;
+
+    public Color curHex;
+
+    public Light2D ballLight;
+
+    // End Sprites
+
     public float speed;
     public float maxSpeed;
     public float minGravSpeed;
@@ -105,6 +134,98 @@ public class Player_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (saveData.currentBall == 0)
+        {
+            srB.sprite = regularB;
+            sr.sprite = regular;
+        }
+        else if (saveData.currentBall == 1)
+        {
+            srB.sprite = ringB;
+            sr.sprite = ring;
+        }
+        else if (saveData.currentBall == 2)
+        {
+            srB.sprite = linesB;
+            sr.sprite = lines;
+        }
+        else if (saveData.currentBall == 3)
+        {
+            srB.sprite = loadingB;
+            sr.sprite = loading;
+        }
+        else if (saveData.currentBall == 4)
+        {
+            srB.sprite = particlesB;
+            sr.sprite = particles;
+        }
+        else if (saveData.currentBall == 5)
+        {
+            srB.sprite = securityB;
+            sr.sprite = security;
+        }
+
+        if (saveData.currentColor == 0)
+        {
+            currentHex = saveData.redHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 1)
+        {
+            currentHex = saveData.orangeHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 2)
+        {
+            currentHex = saveData.yellowHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 3)
+        {
+            currentHex = saveData.limeHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 4)
+        {
+            currentHex = saveData.greenHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 5)
+        {
+            currentHex = saveData.lightBlueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 6)
+        {
+            currentHex = saveData.blueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 7)
+        {
+            currentHex = saveData.darkBlueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 8)
+        {
+            currentHex = saveData.purpleHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 9)
+        {
+            currentHex = saveData.magentaHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 10)
+        {
+            currentHex = saveData.pinkHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 11)
+        {
+            currentHex = saveData.whiteHex;
+            SetGlobalLightColor(currentHex);
+        }
+
         isTouchingNospawn = Physics2D.OverlapCircle(spawnCheck.position, spawnCheckRadius, spawnLayer);
         isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
         isTouchingGroundB = Physics2D.OverlapCircle(groundBCheck.position, groundBCheckRadius, groundBLayer);
@@ -327,6 +448,18 @@ public class Player_Move : MonoBehaviour
         if (collision.tag == "Finish")
         {
             levelManager.active = true;
+        }
+    }
+
+    private void SetGlobalLightColor(string hex)
+    {
+        if (ColorUtility.TryParseHtmlString(hex, out curHex))
+        {
+            ballLight.color = curHex;
+        }
+        else
+        {
+            Debug.LogError("Invaled Hex Color");
         }
     }
 }

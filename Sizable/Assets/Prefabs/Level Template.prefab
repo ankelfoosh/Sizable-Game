@@ -3756,6 +3756,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4612389163829464480, guid: 92efbf82e1aa4004ba8b58648834471d, type: 3}
   m_PrefabInstance: {fileID: 4101416790983085569}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &8712590983952336987 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4612389164596233818, guid: 92efbf82e1aa4004ba8b58648834471d, type: 3}
+  m_PrefabInstance: {fileID: 4101416790983085569}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4530026844908774228
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3837,6 +3848,10 @@ PrefabInstance:
       propertyPath: anim
       value: 
       objectReference: {fileID: 7502552307173057105}
+    - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
+      propertyPath: ballLight
+      value: 
+      objectReference: {fileID: 8712590983952336987}
     - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
       propertyPath: levelManager
       value: 
