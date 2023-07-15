@@ -37,6 +37,7 @@ public class AntiGravGround : MonoBehaviour
         {
             rb.gravityScale = -4f;
             playerMove.minGravSpeed = 38f;
+            playerMove.jumpStopSpeed = -4f;
             if (!pb.isTouchingPiston)
             {
                 playerMove.jumpHeight = playerMove.jumpHeightB;
@@ -50,6 +51,7 @@ public class AntiGravGround : MonoBehaviour
         {
             rb.gravityScale = 4f;
             playerMove.minGravSpeed = -38f;
+            playerMove.jumpStopSpeed = 4f;
             touch = false;
         }
     }

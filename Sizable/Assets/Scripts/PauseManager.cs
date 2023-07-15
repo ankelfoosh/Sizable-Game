@@ -29,6 +29,7 @@ public class PauseManager : MonoBehaviour
             playerMove.canMove = false;
             playerMove.rb.gravityScale = 0f;
             playerMove.rb.velocity = new Vector2(0f, 0f);
+            Time.timeScale = 0f;
             mainMenu.SetActive(true);
             restart.SetActive(true);
 
@@ -40,6 +41,7 @@ public class PauseManager : MonoBehaviour
         }
         else if (!active)
         {
+            Time.timeScale = 1f;
             mainMenu.SetActive(false);
             restart.SetActive(false);
 

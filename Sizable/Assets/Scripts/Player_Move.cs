@@ -11,6 +11,8 @@ public class Player_Move : MonoBehaviour
     public float currentXSpeed;
     public float currentYSpeed;
     public Rigidbody2D rb;
+    public Rigidbody2D spriteRB;
+    public Transform spriteTF;
     public bool canMove = true;
 
     public int direction = 1;
@@ -35,6 +37,7 @@ public class Player_Move : MonoBehaviour
     public bool isTouchingGround = false;
     private bool jump = false;
     private bool stopJump = false;
+    public float jumpStopSpeed = 4f;
     public float jumpHeight;
     public float jumpHeightB;
 
@@ -151,9 +154,19 @@ public class Player_Move : MonoBehaviour
                 jump = true;
             }
 
-            if (Input.GetKeyUp("space") && !isTouchingGround && !isTouchingGroundB && rb.velocity.y >= 5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y >= 5)
+            if (!aGG.touch)
             {
-                stopJump = true;
+                if (Input.GetKeyUp("space") && !isTouchingGround && !isTouchingGroundB && rb.velocity.y >= 5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y >= 5)
+                {
+                    stopJump = true;
+                }
+            }
+            else if (aGG.touch)
+            {
+                if (Input.GetKeyUp("space") && !isTouchingGround && !isTouchingGroundB && rb.velocity.y <= -5 || Input.GetKeyUp("space") && !pistonBoost.isTouchingPiston && rb.velocity.y <= -5)
+                {
+                    stopJump = true;
+                }
             }
 
             if (!isTouchingGround && !isTouchingGroundB && !stickScript.isTouchingStick && !pistonBoost.isTouchingPiston && doubleJumpAbility)
@@ -288,9 +301,19 @@ public class Player_Move : MonoBehaviour
             }
             else if (stopJump)
             {
-                rb.velocity = new Vector2(rb.velocity.x, 4);
+                rb.velocity = new Vector2(rb.velocity.x, jumpStopSpeed);
                 stopJump = false;
             }
+
+            if (rb.gravityScale > 0)
+            {
+                spriteRB.rotation -= rb.velocity.x * (2f / transform.localScale.x);
+            }
+            else
+            {
+                spriteRB.rotation += rb.velocity.x * (2f / transform.localScale.x);
+            }
+            spriteTF.localPosition = transform.localPosition - transform.localPosition;
         }
     }
 
