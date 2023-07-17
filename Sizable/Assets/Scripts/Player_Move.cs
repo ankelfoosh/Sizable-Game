@@ -6,6 +6,11 @@ using UnityEngine.Rendering.Universal;
 public class Player_Move : MonoBehaviour
 {
     public SaveData saveData;
+    public ParticleSystem trail;
+    public Transform trailTransform;
+
+    private bool moveTrail = false;
+    private bool isTrailing = false;
 
     // Sprites
     public SpriteRenderer srB;
@@ -232,6 +237,15 @@ public class Player_Move : MonoBehaviour
         currentXSpeed = rb.velocity.x;
         currentYSpeed = rb.velocity.y;
 
+        if (Input.GetKeyDown("a") || Input.GetKeyDown("d"))
+        {
+            isTrailing = true;
+        }
+        else
+        {
+
+        }
+
         if (pistonBoost.isTouchingPiston)
         {
             speedTierBonus = 1f;
@@ -260,7 +274,7 @@ public class Player_Move : MonoBehaviour
         {
             currentDJTier = doubleJumpTierMax;
         }
-        
+
         if (isTouchingGround && !isTouchingNospawn)
         {
             respawnPoint = transform.position;
@@ -434,8 +448,35 @@ public class Player_Move : MonoBehaviour
             {
                 spriteRB.rotation += rb.velocity.x * (2f / transform.localScale.x);
             }
-            spriteTF.localPosition = transform.localPosition - transform.localPosition;
+
+            // Trail stuff
+
+            if (isTrailing)
+            {
+                moveTrail = true;
+                isTrailing = false;
+            }
         }
+
+        if (rb.velocity.x > 0.1f && moveTrail || rb.velocity.x < -0.1f && moveTrail)
+        {
+            Debug.Log("Started Trail");
+            trail.Play();
+            moveTrail = false;
+        }
+        else if (rb.velocity.x == 0f && !moveTrail)
+        {
+            Debug.Log("Stopped Trail");
+            trail.Stop();
+        }
+        if (rb.velocity.x > 0.1f && moveTrail || rb.velocity.x < -0.1f && moveTrail)
+        {
+            Debug.Log("Started Trail");
+            trail.Play();
+            moveTrail = false;
+        }
+
+        spriteTF.localPosition = transform.localPosition - transform.localPosition;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

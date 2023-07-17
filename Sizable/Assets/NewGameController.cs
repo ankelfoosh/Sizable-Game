@@ -161,6 +161,70 @@ public class NewGameController : MonoBehaviour
         saveData.currentColor = 11;
     }
 
+    void Update()
+    {
+        if (saveData.currentColor == 0)
+        {
+            currentHex = redHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 1)
+        {
+            currentHex = orangeHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 2)
+        {
+            currentHex = yellowHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 3)
+        {
+            currentHex = limeHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 4)
+        {
+            currentHex = greenHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 5)
+        {
+            currentHex = lightBlueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 6)
+        {
+            currentHex = blueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 7)
+        {
+            currentHex = darkBlueHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 8)
+        {
+            currentHex = purpleHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 9)
+        {
+            currentHex = magentaHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 10)
+        {
+            currentHex = pinkHex;
+            SetGlobalLightColor(currentHex);
+        }
+        else if (saveData.currentColor == 11)
+        {
+            currentHex = whiteHex;
+            SetGlobalLightColor(currentHex);
+        }
+    }
+
     private void SetGlobalLightColor(string hex)
     {
         if (ColorUtility.TryParseHtmlString(hex, out curHex))

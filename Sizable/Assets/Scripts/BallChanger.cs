@@ -30,7 +30,7 @@ public class BallChanger : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ballSelector.value = saveData.currentBall;
     }
 
     // Update is called once per frame
@@ -40,39 +40,60 @@ public class BallChanger : MonoBehaviour
 
         if (ballValue == 0)
         {
-            sr.sprite = regular;
-            srB.sprite = regularB;
             saveData.currentBall = 0;
         }
         else if (ballValue == 1)
         {
-            sr.sprite = ring;
-            srB.sprite = ringB;
             saveData.currentBall = 1;
         }
         else if (ballValue == 2)
         {
-            sr.sprite = lines;
-            srB.sprite = linesB;
             saveData.currentBall = 2;
         }
         else if (ballValue == 3)
         {
-            sr.sprite = loading;
-            srB.sprite = loadingB;
             saveData.currentBall = 3;
         }
         else if (ballValue == 4)
         {
-            sr.sprite = particles;
-            srB.sprite = particlesB;
             saveData.currentBall = 4;
         }
         else if (ballValue == 5)
         {
+            saveData.currentBall = 5;
+        }
+
+        // Saves
+
+        if (saveData.currentBall == 0)
+        {
+            sr.sprite = regular;
+            srB.sprite = regularB;
+        }
+        else if (saveData.currentBall == 1)
+        {
+            sr.sprite = ring;
+            srB.sprite = ringB;
+        }
+        else if (saveData.currentBall == 2)
+        {
+            sr.sprite = lines;
+            srB.sprite = linesB;
+        }
+        else if (saveData.currentBall == 3)
+        {
+            sr.sprite = loading;
+            srB.sprite = loadingB;
+        }
+        else if (saveData.currentBall == 4)
+        {
+            sr.sprite = particles;
+            srB.sprite = particlesB;
+        }
+        else if (saveData.currentBall == 5)
+        {
             sr.sprite = security;
             srB.sprite = securityB;
-            saveData.currentBall = 5;
         }
     }
 }
