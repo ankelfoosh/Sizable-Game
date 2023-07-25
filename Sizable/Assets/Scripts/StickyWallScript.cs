@@ -9,6 +9,8 @@ public class StickyWallScript : MonoBehaviour
     public LayerMask stickLayer;
     public bool isTouchingStick;
 
+    private bool trig = false;
+
     private Rigidbody2D rb;
     public Player_Move playerMove;
     private AntiGravGround aGG;
@@ -45,6 +47,8 @@ public class StickyWallScript : MonoBehaviour
             rb.gravityScale = 0f;
             rb.velocity = new Vector2(0f, 0f);
 
+            trig = true;
+
             if (Input.GetKey("a") && charge >= -maxHorizontalSpeed)
             {
                 charge -= jumpTime * Time.deltaTime;
@@ -68,8 +72,6 @@ public class StickyWallScript : MonoBehaviour
         }
         else if (!aGG.touch)
         {
-            bar.transform.localPosition = new Vector3(0f, 0f, 0f);
-            chargeBar.SetActive(false);
             rb.gravityScale = 4f;
         }
 
@@ -77,6 +79,16 @@ public class StickyWallScript : MonoBehaviour
         {
             horizontalSpeed = charge;
             jump = true;
+        }
+
+        if (!isTouchingStick && trig)
+        {
+            rb.gravityScale = 4f;
+            charge = 0f;
+            playerMove.canMove = true;
+            playerMove.canChange = true;
+            chargeBar.SetActive(false);
+            trig = false;
         }
     }
 
@@ -87,6 +99,7 @@ public class StickyWallScript : MonoBehaviour
             rb.gravityScale = 4f;
             rb.velocity = new Vector2(horizontalSpeed, verticalSpeed);
             charge = 0f;
+            bar.transform.localPosition = new Vector3(0f, 0f, 0f);
             playerMove.canMove = true;
             playerMove.canChange = true;
             jump = false;

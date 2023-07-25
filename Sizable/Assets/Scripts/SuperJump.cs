@@ -6,13 +6,14 @@ public class SuperJump : MonoBehaviour
 {
     public Player_Move playerMove;
     public PistonBoost pistonBoost;
+    public AntiGravGround aGG;
     private Rigidbody2D rb;
 
     public float jumpCharge;
     public float jumpTime;
     public float jumpHeight;
     public float maxJumpHeight;
-    private bool isJumping;
+    public bool isJumping;
     public float scaleMultiplier = 0.04f;
 
     public RectTransform bar;
@@ -48,11 +49,19 @@ public class SuperJump : MonoBehaviour
 
             if (Input.GetKeyUp("space"))
             {
-                jumpHeight = jumpCharge;
+                if (!aGG.touch)
+                {
+                    jumpHeight = jumpCharge;
+                }
+                else if (aGG.touch)
+                {
+                    jumpHeight = -jumpCharge;
+                }
+
                 bar.localScale = new Vector2(0, 1);
                 chargeBar.SetActive(false);
 
-                if (playerMove.isTouchingGround || pistonBoost.isTouchingPiston)
+                if (playerMove.isTouchingGround || playerMove.isTouchingGroundB || pistonBoost.isTouchingPiston)
                 {
                     isJumping = true;
                 }

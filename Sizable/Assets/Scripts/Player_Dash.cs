@@ -9,6 +9,7 @@ public class Player_Dash : MonoBehaviour
 
     public float dashSpeed;
     public bool isDashing = false;
+    public bool dashed = false;
     public float dashTime;
     public float cooldown;
     private bool canDash = true;
@@ -18,6 +19,11 @@ public class Player_Dash : MonoBehaviour
     float startValue = 0;
     float endValue = 10;
     float valueToLerp;
+
+    //SFX
+
+    public AudioSource dashSF;
+    public AudioSource damageSF;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +37,11 @@ public class Player_Dash : MonoBehaviour
     {
         if (Input.GetKey("f") && canDash && playerMove.charsize == Player_Move.charSizes.medium)
         {
+            dashSF.Play();
             StartCoroutine(Lerp());
             rb.velocity = new Vector2(rb.velocity.x, 5f);
             isDashing = true;
+            dashed = true;
             canDash = false;
             playerMove.canMove = false;
         }
@@ -50,6 +58,7 @@ public class Player_Dash : MonoBehaviour
         valueToLerp = endValue;
         playerMove.canMove = true;
         isDashing = false;
+        dashed = false;
         lerpDuration = cooldown;
         StartCoroutine(SecondLerp());
     }
@@ -67,20 +76,28 @@ public class Player_Dash : MonoBehaviour
         lerpDuration = dashTime;
     }
 
-    void FixedUpdate()
-    {
-        if (isDashing)
-        {
-            rb.velocity = new Vector2(dashSpeed * playerMove.direction, rb.velocity.y);
-        }
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.tag == "Wall" && isDashing)
+        if (collision.tag == "Bounce" && isDashing)
         {
             isDashing = false;
             playerMove.canMove = true;
+        }
+
+        if (collision.tag == "Enemy" && isDashing)
+        {
+            damageSF.Play();
+            rb.velocity = new Vector2(dashSpeed * -playerMove.direction, 5f);
+            playerMove.canMove = true;
+            isDashing = false;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (isDashing && dashed)
+        {
+            rb.velocity = new Vector2(dashSpeed * playerMove.direction, rb.velocity.y);
         }
     }
 }

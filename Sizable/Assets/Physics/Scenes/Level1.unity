@@ -120995,6 +120995,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1181896698}
     - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
+      propertyPath: jumpHeight
+      value: 17
+      objectReference: {fileID: 0}
+    - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
       propertyPath: spawnCheck
       value: 
       objectReference: {fileID: 676275054}
@@ -121002,6 +121006,10 @@ PrefabInstance:
       propertyPath: groundCheck
       value: 
       objectReference: {fileID: 276707032}
+    - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
+      propertyPath: jumpHeightB
+      value: -17
+      objectReference: {fileID: 0}
     - target: {fileID: 2598218482190254230, guid: 16ea2bf7b1d336b4c8276f4093090449, type: 3}
       propertyPath: levelManager
       value: 
@@ -162471,6 +162479,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerMove: {fileID: 1145567161}
   pistonBoost: {fileID: 0}
+  aGG: {fileID: 0}
   jumpCharge: 0
   jumpTime: 12.5
   jumpHeight: 0

@@ -15,7 +15,7 @@ public class PistonBoost : MonoBehaviour
     public float pistonCheckRadius;
     public LayerMask pistonLayer;
     public bool isTouchingPiston = false;
-    private bool touch = true;
+    private bool trig = false;
 
     // Start is called before the first frame update
     void Start()
@@ -31,6 +31,7 @@ public class PistonBoost : MonoBehaviour
 
         if (isTouchingPiston && !aGG.touch)
         {
+            trig = true;
             playerMove.jumpHeight = multiplier;
             superJump.jumpTime = (multiplier * 1.12f) * 0.8f;
             superJump.maxJumpHeight = multiplier * 1.12f;
@@ -38,20 +39,19 @@ public class PistonBoost : MonoBehaviour
         }
         else if (isTouchingPiston && aGG.touch)
         {
+            trig = true;
             playerMove.jumpHeight = -multiplier;
             superJump.jumpTime = (-multiplier * 1.12f) * 0.8f;
             superJump.maxJumpHeight = -multiplier * 1.12f;
             superJump.scaleMultiplier = ((-multiplier * 1.12f) / (-multiplier * 1.12f)) / (-multiplier * 1.12f);
         }
-        else if (!isTouchingPiston && !aGG.isTouchingSwitchA && !aGG.isTouchingSwitchB)
+        else if (!isTouchingPiston && !aGG.isTouchingSwitchA && !aGG.isTouchingSwitchB && trig)
         {
-            if (playerMove.charsize == Player_Move.charSizes.small)
-            {
-                superJump.jumpTime = 20f;
-                superJump.maxJumpHeight = 25f;
-                superJump.scaleMultiplier = 0.04f;
-            }
-            else if (playerMove.charsize == Player_Move.charSizes.medium)
+            superJump.jumpTime = 20f;
+            superJump.maxJumpHeight = 25f;
+            superJump.scaleMultiplier = 0.04f;
+            
+            if (playerMove.charsize == Player_Move.charSizes.medium)
             {
                 playerMove.jumpHeight = 17f;
                 playerMove.jumpHeightB = -17f;
@@ -61,6 +61,8 @@ public class PistonBoost : MonoBehaviour
                 playerMove.jumpHeight = 21f;
                 playerMove.jumpHeightB = -21f;
             }
+
+            trig = false;
         }
     }
 }

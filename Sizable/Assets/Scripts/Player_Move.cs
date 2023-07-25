@@ -57,8 +57,11 @@ public class Player_Move : MonoBehaviour
 
     private Transform transform;
     public DeathManager deathManager;
+    public PlayerHealthDamage phd;
+    public Player_Dash pd;
+    public SuperJump sj;
     public StickyWallScript stickScript;
-    private Vector3 respawnPoint;
+    public Vector3 respawnPoint;
 
     public Transform spawnCheck;
     public float spawnCheckRadius;
@@ -69,11 +72,13 @@ public class Player_Move : MonoBehaviour
     public float groundCheckRadius;
     public LayerMask groundLayer;
     public bool isTouchingGround = false;
-    private bool jump = false;
+    public bool jump = false;
     private bool stopJump = false;
     public float jumpStopSpeed = 4f;
     public float jumpHeight;
     public float jumpHeightB;
+
+    private bool inAir;
 
     public Transform groundBCheck;
     public float groundBCheckRadius;
@@ -123,6 +128,11 @@ public class Player_Move : MonoBehaviour
     float startValue = 0;
     float endValue = 10;
     float valueToLerp;
+
+    //SFX
+
+    public AudioSource jumpSF;
+    public AudioSource landSF;
 
     // Start is called before the first frame update
     void Start()
@@ -251,6 +261,11 @@ public class Player_Move : MonoBehaviour
             speedTierBonus = 1f;
         }
 
+        if (isTouchingGround && !jump && !pd.isDashing && !sj.isJumping)
+        {
+            rb.velocity = new Vector2(rb.velocity.x, 0f);
+        }
+
         // Double jump statements (boring)
 
         if (currentDJTier == 0)
@@ -286,6 +301,7 @@ public class Player_Move : MonoBehaviour
 
             if (Input.GetKeyDown("space") && isTouchingGround || Input.GetKeyDown("space") && isTouchingGroundB || Input.GetKeyDown("space") && pistonBoost.isTouchingPiston)
             {
+                jumpSF.Play();
                 jump = true;
             }
 
@@ -322,6 +338,17 @@ public class Player_Move : MonoBehaviour
             minGravSpeed = -18f * featherTierBonus;
         }
 
+        if (!isTouchingGround)
+        {
+            inAir = true;
+        }
+
+        if (isTouchingGround && rb.velocity.y <= 0f && inAir || isTouchingGroundB && rb.velocity.y <= 0f && inAir)
+        {
+            landSF.Play();
+            inAir = false;
+        }
+
         if (rb.velocity.x <= 0.7f && !isMoving && rb.velocity.x >= -0.7f)
         {
             rb.velocity = new Vector2(0, rb.velocity.y);
@@ -330,7 +357,16 @@ public class Player_Move : MonoBehaviour
         if (deathManager.done)
         {
             rb.velocity = new Vector2(0f, 0f);
-            transform.position = respawnPoint;
+
+            if (phd.resetPointFound)
+            {
+                phd.tf.position = phd.resetPoint.position;
+            }
+            else
+            {
+                phd.tf.position = phd.startPoint.position;
+            }
+
             deathManager.done = false;
             StartCoroutine(Lerp());
         }
@@ -431,6 +467,7 @@ public class Player_Move : MonoBehaviour
             }
             else if (jump)
             {
+                inAir = true;
                 rb.velocity = new Vector2(rb.velocity.x, jumpHeight * jumpTierBonus);
                 jump = false;
             }
@@ -483,7 +520,9 @@ public class Player_Move : MonoBehaviour
     {
         if (collision.tag == "Void")
         {
-            deathManager.isDead = true;
+            rb.velocity = new Vector2(0f, 0f);
+            transform.position = respawnPoint;
+            phd.touchedVoid = true;
         }
 
         if (collision.tag == "Finish")

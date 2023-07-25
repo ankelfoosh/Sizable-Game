@@ -15,6 +15,8 @@ TagManager:
   - FinishLevel
   - Piston
   - Switch
+  - Enemy
+  - ResetPoint
   layers:
   - Default
   - TransparentFX
@@ -30,7 +32,7 @@ TagManager:
   - Piston
   - SwitchA
   - SwitchB
-  - 
+  - Enemy
   - 
   - 
   - 
@@ -96,6 +98,9 @@ TagManager:
     locked: 0
   - name: Lights
     uniqueID: 2606609767
+    locked: 0
+  - name: Enemy
+    uniqueID: 274876567
     locked: 0
   - name: PlayerOutline
     uniqueID: 1613662195

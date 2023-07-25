@@ -47,11 +47,12 @@ public class AntiGravGround : MonoBehaviour
             }
             touch = true;
         }
-        else if (isTouchingSwitchB)
+        else if (isTouchingSwitchB && touch)
         {
             rb.gravityScale = 4f;
             playerMove.minGravSpeed = -38f;
             playerMove.jumpStopSpeed = 4f;
+            playerMove.jumpHeight *= -1f;
             touch = false;
         }
     }
